@@ -8,6 +8,10 @@ Matrix comparison for AsciiArtify
 | Advantages and disadvantages | By default, Minikube creates a single-node cluster, but you can set up more nodes using the --nodes flag when you start Minikube. Minikube's main advantages are that it's extremely lightweight and very easy to install and use. The main downside of Minikube is that it's only designed for testing and have resource limited. | The advantage of kind is being able to very quickly create a hermetic, disposable, predictable kubernetes cluster on-demand. It's optimized for CI/CD testing. Uses Docker containers as cluster nodes. Supports multi-node clusters   | Pipelines in k3d main advantage.                                                                                          |
 | Summary                      | Run in single-node cluster on VM.                                                                                                                                                                                                                                                                                                  | Very fast and easy to start. It was primarily designed for testing Kubernetes itself, but may be used for local development or CI. Running in docker.                                                                                  | Based on your OS (instead of running on some VM or Docker).                                                               |
 
+# Docker vs Podman
+
+Docker provides a system-agnostic approach that can create containerized applications across any platform. Podman is a rootless and daemon-less container built explicitly by RedHat to make it better than Docker. Non-root users, too, can use Podman container-based applications.
+
 # Demo:
 
 MiniKube: 
