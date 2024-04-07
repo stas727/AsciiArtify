@@ -20,20 +20,19 @@ kubectl create namespace argocd && kubectl apply -n argocd -f https://raw.github
 kubectl get all -A
 ```
 
-
-4. Run agrocd :
+5. Run agrocd :
 ```console
 kubectl port-forward svc/argocd-server -n argocd 8080:443&
 ```
 
-5. Get password :
+6. Get password :
 ```console
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"|base64 -d;echo
 ```
 
 You will be able to open https://localhost:8080
 Note, You must use https to open agrocd!
-Use login **admin** and password you get in step 4.
+Use login **admin** and password you get in step 6.
 
 # Demo
 ![Image](../data/651380.gif)
