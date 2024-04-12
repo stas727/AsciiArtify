@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Define command-line arguments
+RESOURCE_TYPE=$1
+ARG_NAMESPACE=$2
+# Retrieve resource usage statistics from Kubernetes
+
+if ! [[ "$1" =~ ^(node|pod)$ ]]; then
+  echo "$1 is not in the list of available arguments. Available : node, pod"
+  exit
+fi
+
+if [ "$ARG_NAMESPACE" == "" ]; then
+  echo 'You must specify a namespace! You can choose from a list below :'
+  kubectl get ns -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}' | tail -n +2
+  exit
+fi
+echo "type | namespace | name | cpu | memory"
+kubectl get ns -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}' | tail -n +2 | while read namespace; do
+  if ! [ "$namespace" == "$ARG_NAMESPACE" ]; then
+    continue
+  fi
+
+  kubectl top $RESOURCE_TYPE -n $ARG_NAMESPACE | tail -n +2 | while read line; do
+    # Extract CPU and memory usage from the output
+    NAME=$(echo $line | awk '{print $1}')
+    CPU=$(echo $line | awk '{print $2}')
+    MEMORY=$(echo $line | awk '{print $3}')
+
+    # Output the statistics to the console
+    # "Resource, Namespace, Name, CPU, Memory"
+
+    echo "$RESOURCE_TYPE | $ARG_NAMESPACE | $NAME | $CPU | $MEMORY"
+  done
+done
